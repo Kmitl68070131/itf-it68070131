@@ -1,31 +1,57 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ITF BANK</title>
+    <title>ระบบบัญชีฝาก-ถอน</title>
     <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-    <nav>
+
+
+    <nav class="navbar">
         <p>68070131</p>
-        <h2>ITF WEDSITE</h2>
+        <h1>ITF WEBSITE</h1>
         <p>Week 14</p>
     </nav>
-    <div>
-        <img src="pic1.png" width="150" alt="dek" />
+
+    <section>
+        <h2>Account Overview</h2>
+        <img src="pic1.png" width="200" alt="68070131" />
+        <p>แสดงข้อมูลบัญชีและประวัติการฝากถอน</p>
         <hr>
-        <hr>
-        <div>
-            <label for="myinput">จำนวนเงิน : </label>
-            <input type="number" id="my_input" value="1">
-            <button type="button" onclick="add()">+1</button>
-        </div>
-    </div>
+    </section>
+
+    <section>
+        <h2>Balance Information</h2>
+        <label>Account Balance (บัญชี):</label>
+        <input type="number" id="accountBalanceInput" placeholder="ยอดเงินบัญชี">
+
+        <label>Cash Balance (เงินสด):</label>
+        <input type="number" id="cashBalanceInput" placeholder="ยอดเงินสด">
+
+        <button onclick="setBalances()">กำหนดยอดเงิน</button>
+    </section>
+
+    <section>
+        <h2>Bank Operation</h2>
+        <label>จำนวนเงิน:</label>
+        <input type="number" id="amount" placeholder="ใส่จำนวนเงิน">
+
+        <button onclick="deposit()">ฝากเงิน</button>
+        <button onclick="withdraw()">ถอนเงิน</button>
+    </section>
+
+    <section>
+        <h2>ยอดเงินปัจจุบัน</h2>
+        <p>Account Balance: <span id="accountBalance">0</span> บาท</p>
+        <p>Cash Balance: <span id="cashBalance">0</span> บาท</p>
+    </section>
+
+    <section>
+        <h2>ประวัติการทำรายการ</h2>
+        <textarea id="historyArea" rows="10" cols="60" readonly></textarea>
+    </section>
+
     <script src="script.js"></script>
-
 </body>
-
-
 </html>

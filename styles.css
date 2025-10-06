@@ -1,11 +1,27 @@
-
 nav {
-    color: rgb(255, 255, 255);
-    background-color: #3932c0;
+    color: white;
+    background: linear-gradient(270deg, red, orange, yellow, green, blue, indigo, violet);
+    background-size: 1400% 1400%;
+    animation: rainbowBackground 10s linear infinite;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    padding: 10px 0;
+    font-weight: bold;
 }
+
+@keyframes rainbowBackground {
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
+}
+
 
 
 body {

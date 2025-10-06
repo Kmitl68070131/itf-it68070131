@@ -4,7 +4,14 @@
     <meta charset="UTF-8"> 
     <title>ITF BANK</title> 
     <link rel="stylesheet" href="styles.css">
-
+    <meta charset="UTF-8">
+    <style>
+        #myImage {
+            display: none;
+            margin-top: 20px;
+            width: 300px;
+        }
+    </style>
 </head> 
 
 
@@ -12,65 +19,78 @@
  
     <nav class="navbar"> 
         <p>68070131</p> 
+        <button onclick="showImage()">
         <h1>ITF WEBSITE</h1>
-        <p>Week 14</p> 
+    </button>
+
+
+    <script>
+        function showImage() {
+            document.getElementById("myImage").style.display = "block";
+        }
+    </script>
+    <p>Week 14</p> 
     </nav> 
- 
-    <h2>Account Overview</h2> 
-    <img src="pic1.png" width="200" alt="68070131" /> 
-    <hr> 
+
+    <h2>Welcome</h2>
+    <img src="pic1.png" width="200" alt="68070131" />
+
+
+
+
+    <hr>
     <h3>ประวัติการฝากถอน</h3> 
     <div class="history_box" id="history" style="width: 500px; height: 200px; background-color: rgb(231, 231, 231);"> 
-        <ul id="history-list"></ul> 
-    </div> 
-    <hr> 
- 
-    <section class="Account Overview"> 
-        <h2>Account Overview</h2>
-        <table> 
-            <tr> 
-                <td><img src="Account.png" alt="logo" width="150"></td> 
-                <td> 
-                    Name : Pakawat Hunluangarch 
-                    <br><br> 
-                    Account Number : Savings Account 
-                </td> 
-            </tr>
-        </table> 
-    </section> 
- 
-    <section class="BANK"> 
-        <h2>Bank</h2>
-        <table> 
-            <tr> 
-                <td><img src="BANK.png" alt="logo" width="150"></td> 
-                <td> 
-                    Account Balance : <input type="number" id="account_Balance" placeholder="กรอกยอดเงินคงเหลือบัญชี"> 
-                    <br><br> 
-                    Cash Balance : <input type="number" id="cash_Valance" placeholder="กรอกยอดเงินคงเหลือเงินสด"> 
-                    <br><br> 
-                    <button onclick="gumnod()" style="background-color: gray;">Change</button> 
-                    <br><br> 
-                </td> 
-            </tr> 
-        </table> 
-    </section> 
- 
-    <section class="Bank Operation"> 
-        <h2>Bank Operation</h2>
-        <table> 
-            <tr> 
-                <td><img src="fak-ton.png" width="150"></td> 
-                <td> 
-                    <input type="number" id="balanceInput" placeholder="กรอกจำนวนเงิน"> 
+        <ul id="history-list"></ul>
+    </div>
+    <hr>
 
-                    <button 
-                    onclick="Transcation('ฝากเงิน', document.getElementById('balanceInput').value)" 
+
+
+    <section class="Account Overview">
+        <h2>Account Overview</h2>
+        <table>
+            <tr>
+                <td><img src="Account.png" alt="logo" width="150"></td> 
+                <td>
+                    Name : Pakawat Hunluangarch 
+                    <br><br>
+                    Account Number : Savings Account 
+                </td>
+            </tr>
+        </table>
+    </section>
+    <section class="BANK">
+        <h2>Bank</h2>
+        <table>
+            <tr>
+                <td><img src="BANK.png" alt="logo" width="150"></td> 
+                <td>
+                    Account Balance : <input type="number" id="account_Balance" placeholder="กรอกยอดเงินคงเหลือบัญชี"> 
+                    <br><br>
+                    Cash Balance : <input type="number" id="cash_Valance" placeholder="กรอกยอดเงินคงเหลือเงินสด"> 
+                    <br><br>
+                    <button onclick="gumnod()" style="background-color: gray;">Change</button>
+                    <br><br>
+                </td>
+            </tr>
+        </table>
+    </section>
+
+    <section class="Bank Operation">
+        <h2>Bank Operation</h2>
+        <table>
+            <tr>
+                <td><img src="fak-ton.png" width="150"></td>
+                <td> 
+                    <input type="number" id="balanceInput" placeholder="กรอกจำนวนเงิน">
+                    <button
+                    onclick="Transcation('ฝากเงิน', document.getElementById('balanceInput').value)"
                     style="background: rgb(3, 138, 48); color: white;">
                     ฝากเงิน
                     </button>
                     <button 
-                    onclick="Transcation('ถอนเงิน', document.getElementById('balanceInput').value)" 
+                    onclick="Transcation('ถอนเงิน', document.getElementById('balanceInput').value)"
                     style="background: rgb(138, 3, 3); color: white;">
                     ถอนเงิน
                     </button>
@@ -78,7 +98,13 @@
             </tr> 
         </table> 
     </section> 
- 
+
+
+
+
+
+
+
     <section class="Currency Converter"> 
         <h2>Currency Converter</h2>
         <table> 
@@ -159,6 +185,8 @@
             }
         }
     </script>
+
+    <img id="myImage" src="mamee.jpg" alt="รูปมามี่">
 
     <script src="script.js"></script>
 </body> 

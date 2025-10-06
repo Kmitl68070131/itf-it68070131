@@ -1,70 +1,66 @@
 let accountBalance = 0;
 let cashBalance = 0;
+let currentBalance = 0;
 
-// อัปเดตยอดแสดงบนหน้า
-function updateDisplay() {
-    document.getElementById("accountBalance").textContent = accountBalance;
-    document.getElementById("cashBalance").textContent = cashBalance;
+function gumnod() {
+    const accBalance = Number(document.getElementById('account_Balance').value) || 0;
+    const cashBal = Number(document.getElementById('cash_Valance').value) || 0;
+    
+    accountBalance = accBalance;
+    cashBalance = cashBal;
+    currentBalance = accBalance;
+    
+    alert(`อัพเดทยอดเงินเรียบร้อย!\nยอดเงินในบัญชี: ${currentBalance.toFixed(2)} บาท\nยอดเงินสด: ${cashBalance.toFixed(2)} บาท`);
 }
 
-// เพิ่มข้อความลงใน Textarea ประวัติ
-function addHistory(message) {
-    const history = document.getElementById("historyArea");
-    const time = new Date().toLocaleTimeString();
-    history.value = `[${time}] ${message}\n` + history.value;
-}
-
-// ฟังก์ชันกำหนดยอดเริ่มต้น
-function setBalances() {
-    const accInput = parseFloat(document.getElementById("accountBalanceInput").value) || 0;
-    const cashInput = parseFloat(document.getElementById("cashBalanceInput").value) || 0;
-
-    accountBalance = accInput;
-    cashBalance = cashInput;
-
-    updateDisplay();
-    addHistory(`กำหนดยอดบัญชี ${accInput} บาท และ เงินสด ${cashInput} บาท`);
-}
-
-// ฟังก์ชันฝากเงิน
-function deposit() {
-    const amount = parseFloat(document.getElementById("amount").value) || 0;
-
-    if (amount <= 0) {
-        alert("กรุณาใส่จำนวนเงินที่มากกว่า 0");
+function Transcation(type, amount) {
+    amount = Number(amount);
+    if (!amount || amount <= 0) {
+        alert("กรุณากรอกจำนวนเงินให้ถูกต้อง");
         return;
     }
 
-    if (cashBalance < amount) {
-        alert("เงินสดไม่พอสำหรับการฝาก");
-        return;
+    const time = new Date().toLocaleString("th-TH");
+    const historyList = document.getElementById("history-list");
+    const li = document.createElement("li");
+
+    if (type === "ฝากเงิน") {
+        currentBalance += amount;
+        li.style.color = "green";
+        li.textContent = `${type} จำนวน ${amount} บาท - เวลา ${time} (ยอดคงเหลือ: ${currentBalance.toFixed(2)} บาท)`;
+    } else if (type === "ถอนเงิน") {
+        if (amount > currentBalance) {
+            alert(`ยอดเงินไม่เพียงพอสำหรับถอน\nยอดเงินคงเหลือ: ${currentBalance.toFixed(2)} บาท\nต้องการถอน: ${amount.toFixed(2)} บาท`);
+            return;
+        }
+        currentBalance -= amount;
+        li.style.color = "red";
+        li.textContent = `${type} จำนวน ${amount} บาท - เวลา ${time} (ยอดคงเหลือ: ${currentBalance.toFixed(2)} บาท)`;
     }
 
-    cashBalance -= amount;
-    accountBalance += amount;
-    updateDisplay();
-    addHistory(`ฝากเงิน ${amount} บาท`);
+    historyList.prepend(li);
+
+    document.getElementById("balanceInput").value = "";
+    document.getElementById("account_Balance").value = currentBalance.toFixed(2);
 }
 
-// ฟังก์ชันถอนเงิน
-function withdraw() {
-    const amount = parseFloat(document.getElementById("amount").value) || 0;
+function convertCurrency() {
+    const inputAmount = Number(document.getElementById('currencyInput').value);
+    const selectedCurrency = document.getElementById("county").value;
+    const output = document.getElementById("balanceOutput");
 
-    if (amount <= 0) {
-        alert("กรุณาใส่จำนวนเงินที่มากกว่า 0");
+    if (!inputAmount || inputAmount <= 0) {
+        alert("กรุณากรอกจำนวนเงินที่ถูกต้อง");
         return;
     }
 
-    if (accountBalance < amount) {
-        alert("ยอดเงินในบัญชีไม่พอสำหรับการถอน");
-        return;
+    let result = 0;
+
+    if (selectedCurrency === "USD") {
+        result = inputAmount * 36.5;
+    } else if (selectedCurrency === "THB") {
+        result = inputAmount / 36.5;
     }
 
-    accountBalance -= amount;
-    cashBalance += amount;
-    updateDisplay();
-    addHistory(`ถอนเงิน ${amount} บาท`);
+    output.textContent = result.toFixed(2);
 }
-
-// เริ่มต้น
-updateDisplay();

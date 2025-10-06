@@ -1,57 +1,146 @@
-<!DOCTYPE html>
-<html lang="th">
-<head>
-    <meta charset="UTF-8">
-    <title>ระบบบัญชีฝาก-ถอน</title>
+<!DOCTYPE html> 
+<html lang="th"> 
+<head> 
+    <meta charset="UTF-8"> 
+    <title>ITF BANK</title> 
     <link rel="stylesheet" href="styles.css">
-</head>
-<body>
+
+</head> 
 
 
-    <nav class="navbar">
-        <p>68070131</p>
+<body> 
+ 
+    <nav class="navbar"> 
+        <p>68070131</p> 
         <h1>ITF WEBSITE</h1>
-        <p>Week 14</p>
-    </nav>
-
-    <section>
+        <p>Week 14</p> 
+    </nav> 
+ 
+    <h2>Account Overview</h2> 
+    <img src="pic1.png" width="200" alt="68070131" /> 
+    <hr> 
+    <h3>ประวัติการฝากถอน</h3> 
+    <div class="history_box" id="history" style="width: 500px; height: 200px; background-color: rgb(231, 231, 231);"> 
+        <ul id="history-list"></ul> 
+    </div> 
+    <hr> 
+ 
+    <section class="Account Overview"> 
         <h2>Account Overview</h2>
-        <img src="pic1.png" width="200" alt="68070131" />
-        <p>แสดงข้อมูลบัญชีและประวัติการฝากถอน</p>
-        <hr>
-    </section>
-
-    <section>
-        <h2>Balance Information</h2>
-        <label>Account Balance (บัญชี):</label>
-        <input type="number" id="accountBalanceInput" placeholder="ยอดเงินบัญชี">
-
-        <label>Cash Balance (เงินสด):</label>
-        <input type="number" id="cashBalanceInput" placeholder="ยอดเงินสด">
-
-        <button onclick="setBalances()">กำหนดยอดเงิน</button>
-    </section>
-
-    <section>
+        <table> 
+            <tr> 
+                <td><img src="Account.png" alt="logo" width="150"></td> 
+                <td> 
+                    Name : Pakawat Hunluangarch 
+                    <br><br> 
+                    Account Number : Savings Account 
+                </td> 
+            </tr>
+        </table> 
+    </section> 
+ 
+    <section class="BANK"> 
+        <h2>Bank</h2>
+        <table> 
+            <tr> 
+                <td><img src="BANK.png" alt="logo" width="150"></td> 
+                <td> 
+                    Account Balance : <input type="number" id="account_Balance" placeholder="กรอกยอดเงินคงเหลือบัญชี"> 
+                    <br><br> 
+                    Cash Balance : <input type="number" id="cash_Valance" placeholder="กรอกยอดเงินคงเหลือเงินสด"> 
+                    <br><br> 
+                    <button onclick="gumnod()" style="background-color: gray;">Change</button> 
+                    <br><br> 
+                </td> 
+            </tr> 
+        </table> 
+    </section> 
+ 
+    <section class="Bank Operation"> 
         <h2>Bank Operation</h2>
-        <label>จำนวนเงิน:</label>
-        <input type="number" id="amount" placeholder="ใส่จำนวนเงิน">
+        <table> 
+            <tr> 
+                <td><img src="fak-ton.png" width="150"></td> 
+                <td> 
+                    <input type="number" id="balanceInput" placeholder="กรอกจำนวนเงิน"> 
 
-        <button onclick="deposit()">ฝากเงิน</button>
-        <button onclick="withdraw()">ถอนเงิน</button>
-    </section>
+                    <button 
+                    onclick="Transcation('ฝากเงิน', document.getElementById('balanceInput').value)" 
+                    style="background: rgb(3, 138, 48); color: white;">
+                    ฝากเงิน
+                    </button>
+                    <button 
+                    onclick="Transcation('ถอนเงิน', document.getElementById('balanceInput').value)" 
+                    style="background: rgb(138, 3, 3); color: white;">
+                    ถอนเงิน
+                    </button>
+                </td> 
+            </tr> 
+        </table> 
+    </section> 
+ 
+    <section class="Currency Converter"> 
+        <h2>Currency Converter</h2>
+        <table> 
+            <tr> 
+                <td><img src="Currency.png" width="150"></td> 
+                <td> 
+                    Input balance : 
+                    <input type="number" id="currencyInput" placeholder="กรอกจำนวนเงิน"><br><br> 
+ 
+                    Output balance : 
+                    <output id="balanceOutput">0</output><br><br> 
+ 
+                    Input Currency : 
+                    <select id="county"> 
+                        <option value="USD">USD</option> 
+                        <option value="THB">THB</option> 
+                    </select> 
+ 
+                    <button onclick="convertCurrency()" style="background-color: darkgrey;">Convert</button> 
+                </td> 
+            </tr> 
+        </table> 
+    </section> 
+ 
+    <script>
+        function gumnod() {
+            const accountBalance = document.getElementById('account_Balance').value;
+            const cashBalance = document.getElementById('cash_Valance').value;
+            alert('อัพเดทยอดเงินเรียบร้อย\nAccount Balance: ' + accountBalance + '\nCash Balance: ' + cashBalance);
+        }
 
-    <section>
-        <h2>ยอดเงินปัจจุบัน</h2>
-        <p>Account Balance: <span id="accountBalance">0</span> บาท</p>
-        <p>Cash Balance: <span id="cashBalance">0</span> บาท</p>
-    </section>
 
-    <section>
-        <h2>ประวัติการทำรายการ</h2>
-        <textarea id="historyArea" rows="10" cols="60" readonly></textarea>
-    </section>
+        function Transcation(type, amount) {
+            if (!amount || parseFloat(amount) <= 0) {
+                alert('กรุณากรอกจำนวนเงินที่ถูกต้อง');
+                return;
+            }
+            
+            const historyList = document.getElementById('history-list');
+            const newItem = document.createElement('li');
+            const now = new Date();
+            newItem.textContent = type + ' จำนวน ' + amount + ' บาท - ' + now.toLocaleString('th-TH');
+            historyList.appendChild(newItem);
+            
+            document.getElementById('balanceInput').value = '';
+            alert(type + ' ' + amount + ' บาท สำเร็จ!');
+        }
 
-    <script src="script.js"></script>
-</body>
+
+        function convertCurrency() {
+            const amount = parseFloat(document.getElementById('currencyInput').value) || 0;
+            const currency = document.getElementById('county').value;
+            const output = document.getElementById('balanceOutput');
+            
+            const exchangeRate = 35.5;
+            
+            if (currency === 'USD') {
+                output.textContent = (amount * exchangeRate).toFixed(2);
+            } else {
+                output.textContent = (amount / exchangeRate).toFixed(2);
+            }
+        }
+    </script>
+</body> 
 </html>

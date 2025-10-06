@@ -104,37 +104,54 @@
     </section> 
  
     <script>
+
+        let currentAccountBalance = 0;
+
         function gumnod() {
             const accountBalance = document.getElementById('account_Balance').value;
             const cashBalance = document.getElementById('cash_Valance').value;
             alert('อัพเดทยอดเงินเรียบร้อย\nAccount Balance: ' + accountBalance + '\nCash Balance: ' + cashBalance);
+
+            currentAccountBalance = parseFloat(accountBalance) || 0;
         }
 
 
         function Transcation(type, amount) {
-            if (!amount || parseFloat(amount) <= 0) {
+            amount = parseFloat(amount);
+            if (!amount || amount <= 0) {
                 alert('กรุณากรอกจำนวนเงินที่ถูกต้อง');
                 return;
             }
-            
+
+            if (type === 'ถอนเงิน' && amount > currentAccountBalance) {
+                alert('ยอดเงินในบัญชีไม่เพียงพอ');
+                return;
+            }
+            if (type === 'ฝากเงิน') {
+                currentAccountBalance += amount;
+            } else if (type === 'ถอนเงิน') {
+                currentAccountBalance -= amount;
+            }
+
+            document.getElementById('account_Balance').value = currentAccountBalance.toFixed(2);
+
             const historyList = document.getElementById('history-list');
             const newItem = document.createElement('li');
             const now = new Date();
-            newItem.textContent = type + ' จำนวน ' + amount + ' บาท - ' + now.toLocaleString('th-TH');
+            newItem.textContent = `${type} จำนวน ${amount} บาท - ${now.toLocaleString('th-TH')}`;
             historyList.appendChild(newItem);
-            
-            document.getElementById('balanceInput').value = '';
-            alert(type + ' ' + amount + ' บาท สำเร็จ!');
-        }
 
+            document.getElementById('balanceInput').value = '';
+            alert(`${type} ${amount} บาท สำเร็จ! ยอดเงินคงเหลือ: ${currentAccountBalance.toFixed(2)} บาท`);
+        }
 
         function convertCurrency() {
             const amount = parseFloat(document.getElementById('currencyInput').value) || 0;
             const currency = document.getElementById('county').value;
             const output = document.getElementById('balanceOutput');
-            
+
             const exchangeRate = 35.5;
-            
+
             if (currency === 'USD') {
                 output.textContent = (amount * exchangeRate).toFixed(2);
             } else {
@@ -142,5 +159,7 @@
             }
         }
     </script>
+
+    <script src="script.js"></script>
 </body> 
 </html>

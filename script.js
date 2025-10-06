@@ -1,66 +1,63 @@
 let accountBalance = 0;
 let cashBalance = 0;
-let currentBalance = 0;
 
 function gumnod() {
     const accBalance = Number(document.getElementById('account_Balance').value) || 0;
     const cashBal = Number(document.getElementById('cash_Valance').value) || 0;
-    
+
     accountBalance = accBalance;
     cashBalance = cashBal;
-    currentBalance = accBalance;
-    
-    alert(`อัพเดทยอดเงินเรียบร้อย!\nยอดเงินในบัญชี: ${currentBalance.toFixed(2)} บาท\nยอดเงินสด: ${cashBalance.toFixed(2)} บาท`);
+
+
+    const displayBalance = document.getElementById('displayBalance');
+    if (displayBalance) {
+        displayBalance.textContent = accountBalance.toFixed(2);
+    }
+
+    alert(`อัพเดทยอดเงินเรียบร้อย!\nยอดเงินในบัญชี: ${accountBalance.toFixed(2)} บาท\nยอดเงินสด: ${cashBalance.toFixed(2)} บาท`);
 }
 
 function Transcation(type, amount) {
-    amount = Number(amount);
+    amount = parseFloat(amount);
     if (!amount || amount <= 0) {
-        alert("กรุณากรอกจำนวนเงินให้ถูกต้อง");
+        alert('กรุณากรอกจำนวนเงินที่ถูกต้อง');
         return;
     }
 
-    const time = new Date().toLocaleString("th-TH");
-    const historyList = document.getElementById("history-list");
-    const li = document.createElement("li");
+    const accountInput = document.getElementById('account_Balance');
+    const cashInput = document.getElementById('cash_Valance');
 
-    if (type === "ฝากเงิน") {
-        currentBalance += amount;
-        li.style.color = "green";
-        li.textContent = `${type} จำนวน ${amount} บาท - เวลา ${time} (ยอดคงเหลือ: ${currentBalance.toFixed(2)} บาท)`;
-    } else if (type === "ถอนเงิน") {
-        if (amount > currentBalance) {
-            alert(`ยอดเงินไม่เพียงพอสำหรับถอน\nยอดเงินคงเหลือ: ${currentBalance.toFixed(2)} บาท\nต้องการถอน: ${amount.toFixed(2)} บาท`);
+    let accountBalance = parseFloat(accountInput.value) || 0;
+    let cashBalance = parseFloat(cashInput.value) || 0;
+
+    if (type === 'ฝากเงิน') {
+        if (cashBalance < amount) {
+            alert('ยอดเงินสดไม่เพียงพอสำหรับการฝาก');
             return;
         }
-        currentBalance -= amount;
-        li.style.color = "red";
-        li.textContent = `${type} จำนวน ${amount} บาท - เวลา ${time} (ยอดคงเหลือ: ${currentBalance.toFixed(2)} บาท)`;
+        accountBalance += amount;
+        cashBalance -= amount;
+    } else if (type === 'ถอนเงิน') {
+        if (accountBalance < amount) {
+            alert('ยอดเงินในบัญชีไม่เพียงพอสำหรับการถอน');
+            return;
+        }
+        accountBalance -= amount;
+        cashBalance += amount;
+    }
+    accountInput.value = accountBalance.toFixed(2);
+    cashInput.value = cashBalance.toFixed(2);
+    const historyList = document.getElementById('history-list');
+    const newItem = document.createElement('li');
+    const now = new Date();
+    newItem.textContent = `${type} จำนวน ${amount} บาท - ${now.toLocaleString('th-TH')}`;
+    newItem.style.color = type === 'ฝากเงิน' ? 'green' : 'red';
+    historyList.prepend(newItem);
+    document.getElementById('balanceInput').value = '';
+    const displayBalance = document.getElementById('displayBalance');
+    if (displayBalance) {
+        displayBalance.textContent = accountBalance.toFixed(2);
     }
 
-    historyList.prepend(li);
-
-    document.getElementById("balanceInput").value = "";
-    document.getElementById("account_Balance").value = currentBalance.toFixed(2);
-}
-
-function convertCurrency() {
-    const inputAmount = Number(document.getElementById('currencyInput').value);
-    const selectedCurrency = document.getElementById("county").value;
-    const output = document.getElementById("balanceOutput");
-
-    if (!inputAmount || inputAmount <= 0) {
-        alert("กรุณากรอกจำนวนเงินที่ถูกต้อง");
-        return;
-    }
-
-    let result = 0;
-
-    if (selectedCurrency === "USD") {
-        result = inputAmount * 36.5;
-    } else if (selectedCurrency === "THB") {
-        result = inputAmount / 36.5;
-    }
-
-    output.textContent = result.toFixed(2);
+    alert(`${type} ${amount} บาท สำเร็จ!`);
 }
